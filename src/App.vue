@@ -16,6 +16,7 @@
       v-model:done="task.done"
       v-model:priority="task.priority"
     ></TodoListItem>
+    <SummaryLine class="mt-8" />
   </div>
 </template>
 
@@ -24,6 +25,7 @@ let nextTaskId = 0;
 import TodoListItem from "./components/TodoListItem.vue";
 import AddTaskInput from "./components/AddTaskInput.vue";
 import BaseCheckbox from "./components/BaseCheckbox.vue";
+import SummaryLine from "./components/SummaryLine.vue";
 
 export default {
   name: "App",
@@ -31,6 +33,7 @@ export default {
     TodoListItem,
     AddTaskInput,
     BaseCheckbox,
+    SummaryLine,
   },
   data() {
     return {
