@@ -32,7 +32,12 @@ const store = createStore({
     };
   },
   getters: {},
-  mutations: {},
+  mutations: {
+    addTask(state, payload) {
+      console.log(state);
+      state.tasks.push(payload);
+    },
+  },
 });
 
 export default store;

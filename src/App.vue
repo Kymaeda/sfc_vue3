@@ -52,8 +52,8 @@ export default {
   },
   methods: {
     taskAdded(task) {
-      this.tasks.push({
-        id: nextTaskId++,
+      this.$store.commit("addTask", {
+        id: this.tasks.length + 1,
         description: task,
         done: false,
         priority: false,
