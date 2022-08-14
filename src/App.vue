@@ -37,9 +37,7 @@ export default {
     SummaryLine,
   },
   data() {
-    return {
-      onlyPending: false,
-    };
+    return {};
   },
   computed: {
     tasks() {
@@ -49,6 +47,14 @@ export default {
       return [...this.tasks]
         .sort((a, b) => Number(b.priority) - Number(a.priority))
         .filter((task) => !this.onlyPending || !task.done);
+    },
+    onlyPending: {
+      get() {
+        return this.$store.state.onlyPending;
+      },
+      set(newValue) {
+        this.$store.commit("updateOnlyPending", newValue);
+      },
     },
   },
   methods: {
