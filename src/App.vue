@@ -13,15 +13,16 @@
       v-for="task in displayedTasks"
       :task="task"
       :key="task.id"
-      v-model:done="task.done"
-      v-model:priority="task.priority"
+      :done="task.done"
+      :priority="task.priority"
+      @update:done="updateTask(task, { done: $event })"
+      @update:priority="updateTask(task, { priority: $event })"
     ></TodoListItem>
     <SummaryLine class="mt-8" />
   </div>
 </template>
 
 <script>
-let nextTaskId = 0;
 import TodoListItem from "./components/TodoListItem.vue";
 import AddTaskInput from "./components/AddTaskInput.vue";
 import BaseCheckbox from "./components/BaseCheckbox.vue";
@@ -58,6 +59,10 @@ export default {
         done: false,
         priority: false,
       });
+    },
+    updateTask(task, changedAttr) {
+      console.log(changedAttr);
+      this.$store.commit("updateTask", Object.assign(task, changedAttr));
     },
   },
 };

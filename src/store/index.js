@@ -34,8 +34,13 @@ const store = createStore({
   getters: {},
   mutations: {
     addTask(state, payload) {
-      console.log(state);
       state.tasks.push(payload);
+    },
+    updateTask(state, payload) {
+      const taskIndex = state.tasks.findIndex((task) => task.id == payload.id);
+      if (taskIndex !== undefined && taskIndex > 0) {
+        state.tasks[taskIndex] = payload;
+      }
     },
   },
 });
