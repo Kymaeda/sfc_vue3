@@ -1,4 +1,5 @@
 import { createStore } from "vuex";
+import { LocalStorage } from "./plugins/localStorage";
 
 const getProjectById = (state, id) =>
   state.projects.find((project) => project.id === id);
@@ -130,6 +131,7 @@ const store = createStore({
       state.currentProjectId = payload;
     },
   },
+  plugins: [LocalStorage],
 });
 
 export default store;
