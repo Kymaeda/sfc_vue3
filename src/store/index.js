@@ -1,5 +1,8 @@
 import { createStore } from "vuex";
 
+const getProjectById = (state, id) =>
+  state.projects.find((project) => project.id === id);
+
 const store = createStore({
   state() {
     return {
@@ -97,9 +100,7 @@ const store = createStore({
   },
   getters: {
     currentProject(state) {
-      return state.projects.find(
-        (project) => project.id === state.currentProjectId
-      );
+      return getProjectById(state, state.currentProjectId);
     },
     projectsWithStats(state) {
       return state.projects.map((project) => ({
@@ -110,16 +111,23 @@ const store = createStore({
   },
   mutations: {
     addTask(state, payload) {
-      state.tasks.push(payload);
+      const project = getProjectById(state, payload.projectId);
+      project.tasks.push(payload.task);
     },
     updateTask(state, payload) {
-      const taskIndex = state.tasks.findIndex((task) => task.id == payload.id);
-      if (taskIndex !== undefined && taskIndex > 0) {
-        state.tasks[taskIndex] = payload;
+      const project = getProjectById(state, payload.projectId);
+      const taskIndex = project.tasks.findIndex(
+        (task) => task.id == payload.task.id
+      );
+      if (taskIndex !== undefined && taskIndex >= 0) {
+        project.tasks[taskIndex] = payload.task;
       }
     },
     updateOnlyPending(state, payload) {
       state.onlyPending = payload;
+    },
+    setCurrentProductId(state, payload) {
+      state.currentProjectId = payload;
     },
   },
 });
