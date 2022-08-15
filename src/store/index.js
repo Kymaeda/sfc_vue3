@@ -95,7 +95,19 @@ const store = createStore({
       ],
     };
   },
-  getters: {},
+  getters: {
+    currentProject(state) {
+      return state.projects.find(
+        (project) => project.id === state.currentProjectId
+      );
+    },
+    projectsWithStats(state) {
+      return state.projects.map((project) => ({
+        ...project,
+        nonDoneCount: project.tasks.filter((task) => !task.done).length,
+      }));
+    },
+  },
   mutations: {
     addTask(state, payload) {
       state.tasks.push(payload);

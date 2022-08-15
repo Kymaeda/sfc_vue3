@@ -52,13 +52,10 @@ export default {
   },
   computed: {
     projects() {
-      return this.$store.state.projects;
+      return this.$store.getters.projectsWithStats;
     },
     tasks() {
-      const currentProject = this.$store.state.projects.find(
-        (project) => project.id === this.$store.state.currentProjectId
-      );
-      return currentProject?.tasks ?? [];
+      return this.$store.getters.currentProject?.tasks ?? [];
     },
     displayedTasks() {
       return [...this.tasks]
@@ -84,7 +81,6 @@ export default {
       });
     },
     updateTask(task, changedAttr) {
-      console.log(changedAttr);
       this.$store.commit("updateTask", Object.assign(task, changedAttr));
     },
   },
