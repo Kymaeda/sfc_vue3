@@ -22,11 +22,13 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   computed: {
-    tasks() {
-      return this.$store.getters.currentProject.tasks ?? [];
-    },
+    ...mapGetters({
+      tasks: "currentProjectTasks",
+    }),
     total() {
       return this.tasks.length;
     },

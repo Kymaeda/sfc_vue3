@@ -42,6 +42,7 @@ import {
   UPDATE_TASK,
   SET_ONLY_PENDING,
 } from "./store/mutation-types";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "App",
@@ -56,12 +57,11 @@ export default {
     return {};
   },
   computed: {
-    projects() {
-      return this.$store.getters.projectsWithStats;
-    },
-    tasks() {
-      return this.$store.getters.currentProject?.tasks ?? [];
-    },
+    ...mapState(["currentProjectId"]),
+    ...mapGetters({
+      projects: "projectsWithStats",
+      tasks: "currentProjectTasks",
+    }),
     displayedTasks() {
       return [...this.tasks]
         .sort((a, b) => Number(b.priority) - Number(a.priority))
@@ -74,9 +74,6 @@ export default {
       set(newValue) {
         this.$store.commit(SET_ONLY_PENDING, newValue);
       },
-    },
-    currentProjectId() {
-      return this.$store.state.currentProjectId;
     },
   },
   methods: {

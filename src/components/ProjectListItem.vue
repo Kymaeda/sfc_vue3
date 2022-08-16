@@ -15,12 +15,14 @@
 
 <script>
 import { SET_ACTIVE_PROJECT } from "../store/mutation-types";
+import { mapState } from "vuex";
 
 export default {
   props: { project: Object },
   computed: {
+    ...mapState(["currentProjectId"]),
     isActive() {
-      return this.$store.state.currentProjectId === this.project.id;
+      return this.currentProjectId === this.project.id;
     },
   },
   methods: {

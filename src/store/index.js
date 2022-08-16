@@ -109,6 +109,9 @@ const store = createStore({
     currentProject(state) {
       return getProjectById(state, state.currentProjectId);
     },
+    currentProjectTasks(_state, getters) {
+      return getters.currentProject?.tasks ?? [];
+    },
     projectsWithStats(state) {
       return state.projects.map((project) => ({
         ...project,
