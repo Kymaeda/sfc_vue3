@@ -1,7 +1,14 @@
-export const LocalStorage = (store) => {
-  console.log("localStorage was initialized");
+const localStorageKey = "vuex-storage";
 
-  store.subscribe((mutation) => {
-    console.log(mutation);
+export const localStorage = (store) => {
+  store.replaceState(
+    Object.assign(
+      store.state,
+      JSON.parse(window.localStorage.getItem(localStorageKey))
+    )
+  );
+
+  store.subscribe((_mutation, state) => {
+    window.localStorage.setItem(localStorageKey, JSON.stringify(state));
   });
 };
