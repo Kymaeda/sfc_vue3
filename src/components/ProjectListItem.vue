@@ -15,7 +15,7 @@
 
 <script>
 import { SET_ACTIVE_PROJECT } from "../store/mutation-types";
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 
 export default {
   props: { project: Object },
@@ -25,10 +25,6 @@ export default {
       return this.currentProjectId === this.project.id;
     },
   },
-  methods: {
-    updateCurrentProjectId(projectId) {
-      this.$store.commit(SET_ACTIVE_PROJECT, projectId);
-    },
-  },
+  methods: mapMutations({ updateCurrentProjectId: SET_ACTIVE_PROJECT }),
 };
 </script>
