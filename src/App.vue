@@ -9,13 +9,13 @@
       <div class="mb-4">
         <AddTaskInput @added="taskAdded"></AddTaskInput>
         <BaseCheckbox
-          class="mb-4 p-4 text-gray-600 text-sm font-weight-100"
+          class="mb-4 p-4 text-gray-600 font-weight-100"
           v-model="onlyPending"
         >
           <b>only wip</b>
         </BaseCheckbox>
       </div>
-      <div class="grid grid-cols-1 gap-4">
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <TodoListItem
           v-for="task in displayedTasks"
           :task="task"
@@ -25,18 +25,18 @@
           @update:done="updateTask(task, { done: $event })"
           @update:priority="updateTask(task, { priority: $event })"
         ></TodoListItem>
-        <SummaryLine class="mt-8" />
       </div>
+      <SummaryLine class="mt-8" />
     </div>
   </div>
 </template>
 
 <script>
-import ProjectList from "./components/ProjectList.vue";
-import TodoListItem from "./components/TodoListItem.vue";
-import AddTaskInput from "./components/AddTaskInput.vue";
-import BaseCheckbox from "./components/BaseCheckbox.vue";
-import SummaryLine from "./components/SummaryLine.vue";
+import ProjectList from "./components/projects/ProjectList.vue";
+import TodoListItem from "./components/tasks/TodoListItem.vue";
+import AddTaskInput from "./components/tasks/AddTaskInput.vue";
+import BaseCheckbox from "./components/base/BaseCheckbox.vue";
+import SummaryLine from "./components/projects/ProjectSummaryLine.vue";
 import {
   ADD_TASK,
   UPDATE_TASK,

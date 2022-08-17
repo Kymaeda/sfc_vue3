@@ -15,32 +15,6 @@ const store = createStore({
     return {
       onlyPending: false,
       currentProjectId: 1,
-      tasks: [
-        {
-          id: 1,
-          description: "Buy food for the dog",
-          priority: false,
-          done: false,
-        },
-        {
-          id: 2,
-          description: "Pay the bills",
-          priority: true,
-          done: false,
-        },
-        {
-          id: 3,
-          description: "Buy some computer games",
-          priority: false,
-          done: false,
-        },
-        {
-          id: 4,
-          description: "Go to the gym",
-          priority: false,
-          done: false,
-        },
-      ],
       projects: [
         {
           id: 1,

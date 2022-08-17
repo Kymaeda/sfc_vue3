@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { SET_ACTIVE_PROJECT } from "../store/mutation-types";
+import { SET_ACTIVE_PROJECT } from "../../store/mutation-types";
 import { mapState, mapMutations } from "vuex";
 
 export default {

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-white shadow-sm rounded-md text-gray-700 text-xs md:text-sm p-4"
+    class="bg-white shadow-sm rounded-md text-gray-700"
     :class="{ 'opacity-25 line-through': task.done }"
   >
     {{ task.description }}
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import BaseCheckbox from "./BaseCheckbox.vue";
+import BaseCheckbox from "../base/BaseCheckbox.vue";
 
 export default {
   components: {
