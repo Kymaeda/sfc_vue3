@@ -18,15 +18,18 @@
         Priority
       </BaseCheckbox>
     </div>
+    <TodoListItemMenu></TodoListItemMenu>
   </div>
 </template>
 
 <script>
 import BaseCheckbox from "../base/BaseCheckbox.vue";
+import TodoListItemMenu from "./TodoListItemMenu.vue";
 
 export default {
   components: {
     BaseCheckbox,
+    TodoListItemMenu,
   },
   props: {
     task: { type: Object, required: true },
