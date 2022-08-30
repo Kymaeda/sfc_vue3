@@ -22,6 +22,7 @@
           :key="task.id"
           :done="task.done"
           :priority="task.priority"
+          :project-id="currentProjectId"
           @update:done="updateTask(task, { done: $event })"
           @update:priority="updateTask(task, { priority: $event })"
         ></TodoListItem>

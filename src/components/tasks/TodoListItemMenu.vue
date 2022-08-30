@@ -19,6 +19,7 @@ export default {
     BaseTextButton,
     TodoListItemMenuMove,
   },
+  inject: ["task", "projectId"],
   data() {
     return { showMenu: false };
   },

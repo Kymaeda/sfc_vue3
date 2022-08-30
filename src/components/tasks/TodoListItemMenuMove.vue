@@ -26,6 +26,7 @@ export default {
     BaseTextButton,
     BaseSmallListButton,
   },
+  inject: ["task", "projectId"],
   emits: ["closed"],
   computed: mapState({
     projects: (state) => state.projects,

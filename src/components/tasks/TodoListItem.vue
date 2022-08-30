@@ -35,6 +35,14 @@ export default {
     task: { type: Object, required: true },
     done: Boolean,
     priority: Boolean,
+    projectId: Number,
+  },
+  // NOTE: define as method in order to handle reactive data
+  provide() {
+    return {
+      task: this.task,
+      projectId: this.projectId,
+    };
   },
   emits: ["update:done", "update:priority"],
 };
