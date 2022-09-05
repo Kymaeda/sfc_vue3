@@ -1,10 +1,10 @@
 <template>
   <div
-    class="bg-white shadow-sm rounded-md text-gray-700"
+    class="bg-white shadow-sm rounded-md text-gray-700 flex flex-col"
     :class="{ 'opacity-25 line-through': task.done }"
   >
-    {{ task.description }}
-    <div class="p-4 bg-white">
+    <div class="p-4 border-b border-gray-100">{{ task.description }}</div>
+    <div class="p-4 bg-white flex-grow">
       <BaseCheckbox
         @update:model-value="$emit('update:done', $event)"
         :model-value="done"
@@ -25,6 +25,7 @@
 <script>
 import BaseCheckbox from "../base/BaseCheckbox.vue";
 import TodoListItemMenu from "./TodoListItemMenu.vue";
+import { computed } from "vue";
 
 export default {
   components: {
@@ -40,8 +41,10 @@ export default {
   // NOTE: define as method in order to handle reactive data
   provide() {
     return {
-      task: this.task,
-      projectId: this.projectId,
+      // task: this.task,
+      // projectId: this.projectId,
+      task: computed(() => this.task),
+      projectId: computed(() => this.projectId),
     };
   },
   emits: ["update:done", "update:priority"],

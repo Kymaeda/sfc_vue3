@@ -2,13 +2,24 @@ import { createStore } from "vuex";
 import { localStorage } from "./plugins/localStorage";
 import {
   ADD_TASK,
+  REMOVE_TASK,
   UPDATE_TASK,
   SET_ONLY_PENDING,
   SET_ACTIVE_PROJECT,
 } from "./mutation-types";
+import { MOVE_TASK } from "./action-types";
 
 const getProjectById = (state, id) =>
   state.projects.find((project) => project.id === id);
+
+const getProjectAndTaskId = function (state, { projectId, taskId }) {
+  const project = getProjectById(state, projectId);
+
+  return {
+    project,
+    taskIndex: project.tasks.findIndex((task) => task.id == taskId),
+  };
+};
 
 const store = createStore({
   state() {
@@ -98,11 +109,14 @@ const store = createStore({
       const project = getProjectById(state, payload.projectId);
       project.tasks.push(payload.task);
     },
+    [REMOVE_TASK](state, payload) {
+      const { project, taskIndex } = getProjectAndTaskId(state, payload);
+      if (taskIndex !== undefined && taskIndex >= 0) {
+        project.tasks.splice(taskIndex, 1);
+      }
+    },
     [UPDATE_TASK](state, payload) {
-      const project = getProjectById(state, payload.projectId);
-      const taskIndex = project.tasks.findIndex(
-        (task) => task.id == payload.task.id
-      );
+      const { project, taskIndex } = getProjectAndTaskId(state, payload);
       if (taskIndex !== undefined && taskIndex >= 0) {
         project.tasks[taskIndex] = payload.task;
       }
@@ -112,6 +126,22 @@ const store = createStore({
     },
     [SET_ACTIVE_PROJECT](state, payload) {
       state.currentProjectId = payload;
+    },
+  },
+  actions: {
+    [MOVE_TASK]({ commit, state }, { taskId, fromProjectId, toProjectId }) {
+      const { project, taskIndex } = getProjectAndTaskId(state, {
+        fromProjectId,
+        taskId,
+      });
+      commit(ADD_TASK, {
+        task: project.tasks.findIndex(taskIndex),
+        projectId: toProjectId,
+      });
+      commit(REMOVE_TASK, {
+        taskId,
+        projectId: fromProjectId,
+      });
     },
   },
   plugins: [localStorage],
