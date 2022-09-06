@@ -4,7 +4,7 @@
       <BaseTextButton @click="toggleMenu" class="mr-2" color="indigo">
         Move
       </BaseTextButton>
-      <BaseTextButton color="red">Delete</BaseTextButton>
+      <BaseTextButton color="red" @click="removeTask">Delete</BaseTextButton>
     </div>
 
     <TodoListItemMenuMove v-else @closed="toggleMenu" />
@@ -14,6 +14,9 @@
 <script>
 import BaseTextButton from "./../base/BaseTextButton.vue";
 import TodoListItemMenuMove from "./TodoListItemMenuMove.vue";
+import { REMOVE_TASK } from "./../../store/mutation-types";
+import { mapMutations } from "vuex";
+
 export default {
   components: {
     BaseTextButton,
@@ -24,6 +27,13 @@ export default {
     return { showMenu: false };
   },
   methods: {
+    ...mapMutations([REMOVE_TASK]),
+    removeTask() {
+      this[REMOVE_TASK]({
+        taskId: this.task.id,
+        projectId: this.projectId,
+      });
+    },
     toggleMenu() {
       this.showMenu = !this.showMenu;
     },

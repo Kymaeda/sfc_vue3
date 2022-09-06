@@ -5,7 +5,9 @@
     </div>
     <div class="mb-2">
       <div v-for="project in projects" :key="project.id">
-        <BaseSmallListButton>→ {{ project.name }}</BaseSmallListButton>
+        <BaseSmallListButton @click="moveTask(project.id)"
+          >→ {{ project.name }}</BaseSmallListButton
+        >
       </div>
     </div>
     <div>
@@ -19,7 +21,8 @@
 <script>
 import BaseTextButton from "../base/BaseTextButton.vue";
 import BaseSmallListButton from "../base/BaseSmallListButton.vue";
-import { mapState } from "vuex";
+import { MOVE_TASK } from "./../../store/action-types";
+import { mapState, mapActions } from "vuex";
 
 export default {
   components: {
@@ -29,7 +32,21 @@ export default {
   inject: ["task", "projectId"],
   emits: ["closed"],
   computed: mapState({
-    projects: (state) => state.projects,
+    // NOTE: need to be function to access component data or function
+    projects(state) {
+      return state.projects.filter((project) => project.id !== this.projectId);
+    },
   }),
+  methods: {
+    ...mapActions([MOVE_TASK]),
+    moveTask(toProjectId) {
+      this[MOVE_TASK]({
+        taskId: this.task.id,
+        fromProjectId: this.projectId,
+        toProjectId,
+      });
+      this.$emit("close");
+    },
+  },
 };
 </script>
