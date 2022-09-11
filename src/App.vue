@@ -58,7 +58,9 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(["currentProjectId"]),
+    ...mapState({
+      currentProjectId: (state) => state.project.currentProjectId,
+    }),
     ...mapGetters({
       projects: "projectsWithStats",
       tasks: "currentProjectTasks",
@@ -70,7 +72,7 @@ export default {
     },
     onlyPending: {
       get() {
-        return this.$store.state.onlyPending;
+        return this.$store.state.application.onlyPending;
       },
       set(newValue) {
         this[SET_ONLY_PENDING](newValue);

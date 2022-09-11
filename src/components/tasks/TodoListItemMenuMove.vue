@@ -34,7 +34,9 @@ export default {
   computed: mapState({
     // NOTE: need to be function to access component data or function
     projects(state) {
-      return state.projects.filter((project) => project.id !== this.projectId);
+      return state.project.projects.filter(
+        (project) => project.id !== this.projectId
+      );
     },
   }),
   methods: {

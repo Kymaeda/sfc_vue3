@@ -20,7 +20,9 @@ import { mapState, mapMutations } from "vuex";
 export default {
   props: { project: Object },
   computed: {
-    ...mapState(["currentProjectId"]),
+    ...mapState({
+      currentProjectId: (state) => state.project.currentProjectId,
+    }),
     isActive() {
       return this.currentProjectId === this.project.id;
     },
