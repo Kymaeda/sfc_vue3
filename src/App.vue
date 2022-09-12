@@ -61,7 +61,7 @@ export default {
     ...mapState({
       currentProjectId: (state) => state.project.currentProjectId,
     }),
-    ...mapGetters({
+    ...mapGetters("project", {
       projects: "projectsWithStats",
       tasks: "currentProjectTasks",
     }),
@@ -75,12 +75,14 @@ export default {
         return this.$store.state.application.onlyPending;
       },
       set(newValue) {
-        this[SET_ONLY_PENDING](newValue);
+        // this[SET_ONLY_PENDING](newValue);
+        this.$store.commit(`application/${SET_ONLY_PENDING}`, newValue);
       },
     },
   },
   methods: {
-    ...mapMutations([ADD_TASK, UPDATE_TASK, SET_ONLY_PENDING]),
+    ...mapMutations("application", [SET_ONLY_PENDING]),
+    ...mapMutations("project", [ADD_TASK, UPDATE_TASK]),
     taskAdded(task) {
       this[ADD_TASK]({
         projectId: this.currentProjectId,

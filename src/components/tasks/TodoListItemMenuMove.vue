@@ -40,7 +40,7 @@ export default {
     },
   }),
   methods: {
-    ...mapActions([MOVE_TASK]),
+    ...mapActions("project", [MOVE_TASK]),
     // Delete してから Add する＝他のmutationsをcallする必要があるので、actionで定義している
     moveTask(toProjectId) {
       this[MOVE_TASK]({

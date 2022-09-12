@@ -27,6 +27,8 @@ export default {
       return this.currentProjectId === this.project.id;
     },
   },
-  methods: mapMutations({ updateCurrentProjectId: SET_ACTIVE_PROJECT }),
+  methods: mapMutations("project", {
+    updateCurrentProjectId: SET_ACTIVE_PROJECT,
+  }),
 };
 </script>
