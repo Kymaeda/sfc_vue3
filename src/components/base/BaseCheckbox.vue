@@ -12,22 +12,24 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    modelValue: {
-      type: Boolean,
-      default: false,
-    },
-    label: {
-      type: String,
-    },
+<script setup>
+// NOTE: might need to import if created project with vue-cli
+//       with vite, you can skip import these methods
+import { defineProps, defineEmits } from "vue";
+
+const props = defineProps({
+  modelValue: {
+    type: Boolean,
+    default: false,
   },
-  emits: ["update:modelValue"],
-  methods: {
-    onChange() {
-      this.$emit("update:modelValue", !this.modelValue);
-    },
-  },
-};
+});
+
+// assign props will lose reactivity
+// const nonReactive = props.modelValue;
+//
+// `toRef` extract props property as reactive data(cf. https://v3.ja.vuejs.org/api/refs-api.html#toref)
+// const nonReactive = toRef(props, "modelValue");
+
+const emit = defineEmits(["update:modelValue"]);
+const onChange = () => emit("update:modelValue", !props.modelValue);
 </script>
