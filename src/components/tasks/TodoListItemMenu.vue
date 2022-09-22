@@ -11,32 +11,21 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import BaseTextButton from "./../base/BaseTextButton.vue";
 import TodoListItemMenuMove from "./TodoListItemMenuMove.vue";
-import { REMOVE_TASK } from "./../../store/mutation-types";
-import { mapMutations } from "vuex";
+// import { REMOVE_TASK } from './../../store/mutation-types';
+// import { mapMutations } from 'vuex';
+import { ref, inject } from "vue";
 
-export default {
-  components: {
-    BaseTextButton,
-    TodoListItemMenuMove,
-  },
-  inject: ["task", "projectId"],
-  data() {
-    return { showMenu: false };
-  },
-  methods: {
-    ...mapMutations([REMOVE_TASK]),
-    removeTask() {
-      this[REMOVE_TASK]({
-        taskId: this.task.id,
-        projectId: this.projectId,
-      });
-    },
-    toggleMenu() {
-      this.showMenu = !this.showMenu;
-    },
-  },
-};
+const showMenu = ref(false);
+const toggleMenu = () => (showMenu.value = !showMenu.value);
+
+const task = inject("task");
+const projectId = inject("projectId");
+
+const removeTask = () =>
+  console.log(
+    `Task id with ${task.id} will be removed from Project ${projectId}`
+  );
 </script>

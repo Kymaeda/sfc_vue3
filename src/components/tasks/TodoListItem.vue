@@ -22,31 +22,18 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import BaseCheckbox from "../base/BaseCheckbox.vue";
 import TodoListItemMenu from "./TodoListItemMenu.vue";
-import { computed } from "vue";
+import { provide, defineEmits, defineProps } from "vue";
 
-export default {
-  components: {
-    BaseCheckbox,
-    TodoListItemMenu,
-  },
-  props: {
-    task: { type: Object, required: true },
-    done: Boolean,
-    priority: Boolean,
-    projectId: Number,
-  },
-  // NOTE: define as method in order to handle reactive data
-  provide() {
-    return {
-      // task: this.task,
-      // projectId: this.projectId,
-      task: computed(() => this.task),
-      projectId: computed(() => this.projectId),
-    };
-  },
-  emits: ["update:done", "update:priority"],
-};
+const props = defineProps({
+  task: { type: Object, required: true },
+  done: Boolean,
+  priority: Boolean,
+  projectId: Number,
+});
+defineEmits(["update:done", "update:priority"]);
+provide("task", props.task);
+provide("projectId", props.projectId);
 </script>
