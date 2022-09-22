@@ -32,7 +32,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import ProjectList from "./components/projects/ProjectList.vue";
 import TodoListItem from "./components/tasks/TodoListItem.vue";
 import AddTaskInput from "./components/tasks/AddTaskInput.vue";
@@ -43,65 +43,43 @@ import {
   UPDATE_TASK,
   SET_ONLY_PENDING,
 } from "./store/mutation-types";
-import { mapState, mapGetters, mapMutations } from "vuex";
 
-export default {
-  name: "App",
-  components: {
-    TodoListItem,
-    AddTaskInput,
-    BaseCheckbox,
-    SummaryLine,
-    ProjectList,
-  },
-  data() {
-    return {};
-  },
-  computed: {
-    ...mapState({
-      currentProjectId: (state) => state.project.currentProjectId,
-    }),
-    ...mapGetters("project", {
-      projects: "projectsWithStats",
-      tasks: "currentProjectTasks",
-    }),
-    displayedTasks() {
-      return [...this.tasks]
-        .sort((a, b) => Number(b.priority) - Number(a.priority))
-        .filter((task) => !this.onlyPending || !task.done);
+import { useStore } from "vuex";
+import { computed } from "vue";
+
+const store = useStore();
+const currentProjectId = computed(() => store.state.project.currentProjectId);
+// NOTE: specify namespace if use
+const projects = computed(() => store.getters[`project/projectsWithStats`]);
+const tasks = computed(() => store.getters[`project/currentProjectTasks`]);
+
+// NOTE: getter, setter どちらの機能も利用したいときは、get, set を持つオブジェクトを渡す必要がある
+const onlyPending = computed({
+  get: () => store.state.application.onlyPending,
+  set: (newValue) => store.commit(`application/${SET_ONLY_PENDING}`, newValue),
+});
+const displayedTasks = computed(() =>
+  [...tasks.value]
+    .sort((a, b) => Number(b.priority) - Number(a.priority))
+    .filter((task) => !onlyPending.value || !task.done)
+);
+
+const taskAdded = (description) =>
+  store.commit(`project/${ADD_TASK}`, {
+    projectId: currentProjectId.value,
+    task: {
+      id: tasks.value.length + 1,
+      description,
+      done: false,
+      priority: false,
     },
-    onlyPending: {
-      get() {
-        return this.$store.state.application.onlyPending;
-      },
-      set(newValue) {
-        // this[SET_ONLY_PENDING](newValue);
-        this.$store.commit(`application/${SET_ONLY_PENDING}`, newValue);
-      },
-    },
-  },
-  methods: {
-    ...mapMutations("application", [SET_ONLY_PENDING]),
-    ...mapMutations("project", [ADD_TASK, UPDATE_TASK]),
-    taskAdded(task) {
-      this[ADD_TASK]({
-        projectId: this.currentProjectId,
-        task: {
-          id: this.tasks.length + 1,
-          description: task,
-          done: false,
-          priority: false,
-        },
-      });
-    },
-    updateTask(task, changedAttr) {
-      this[UPDATE_TASK]({
-        projectId: this.currentProjectId,
-        task: Object.assign(task, changedAttr),
-      });
-    },
-  },
-};
+  });
+
+const updateTask = (task, changedAttr) =>
+  store.commit(`project/${UPDATE_TASK}`, {
+    projectId: currentProjectId.value,
+    task: Object.assign(task, changedAttr),
+  });
 </script>
 
 <style>
