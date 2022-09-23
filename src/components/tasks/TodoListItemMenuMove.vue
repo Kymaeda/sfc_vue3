@@ -18,38 +18,30 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import BaseTextButton from "../base/BaseTextButton.vue";
 import BaseSmallListButton from "../base/BaseSmallListButton.vue";
 import { MOVE_TASK } from "./../../store/action-types";
-import { mapState, mapActions } from "vuex";
+import { useStore } from "vuex";
+import { defineEmits, computed, inject } from "vue";
 
-export default {
-  components: {
-    BaseTextButton,
-    BaseSmallListButton,
-  },
-  inject: ["task", "projectId"],
-  emits: ["closed"],
-  computed: mapState({
-    // NOTE: need to be function to access component data or function
-    projects(state) {
-      return state.project.projects.filter(
-        (project) => project.id !== this.projectId
-      );
-    },
-  }),
-  methods: {
-    ...mapActions("project", [MOVE_TASK]),
-    // Delete してから Add する＝他のmutationsをcallする必要があるので、actionで定義している
-    moveTask(toProjectId) {
-      this[MOVE_TASK]({
-        taskId: this.task.id,
-        fromProjectId: this.projectId,
-        toProjectId,
-      });
-      this.$emit("close");
-    },
-  },
+const store = useStore();
+
+const task = inject("task");
+const projectId = inject("projectId");
+const emit = defineEmits(["closed"]);
+const projects = computed(() => {
+  return store.state.project.projects.filter(
+    (project) => project.id !== projectId
+  );
+});
+
+const moveTask = (toProjectId) => {
+  store.dispatch(`project/${MOVE_TASK}`, {
+    taskId: task.id,
+    fromProjectId: projectId,
+    toProjectId,
+  });
+  emit("close");
 };
 </script>

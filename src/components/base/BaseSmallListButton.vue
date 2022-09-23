@@ -7,8 +7,8 @@
   </button>
 </template>
 
-<script>
-export default {
-  emits: ["click"],
-};
+<script setup>
+import { defineEmits } from "vue";
+
+defineEmits(["click"]);
 </script>

@@ -6,10 +6,9 @@
   />
 </template>
 
-<script>
+<script setup>
 import ProjectListItem from "./ProjectListItem.vue";
-export default {
-  components: { ProjectListItem },
-  props: { projects: Array },
-};
+import { defineProps } from "vue";
+
+defineProps({ projects: Array });
 </script>
